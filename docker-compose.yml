@@ -1,0 +1,18 @@
+version: '3.2'
+
+services:
+  test:
+    image: "node:16.17.1"
+      # user: "1001:1001"
+   # share the current folder as volume to avoid copying
+    working_dir: /tests
+    volumes:
+      - ./:/tests
+      # simulate the /etc/passwd not exist
+      - type: bind
+        source: /dev/null
+        target: /etc/passwd
+        read_only: true
+        # command: node -e "console.log(os.userInfo());"
+    command: sh -c 'npm run test'
+        # command: sleep infinity
